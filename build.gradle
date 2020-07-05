@@ -297,7 +297,7 @@ task PullRequestCommnetsIntegrationTest(type: Test) {
     useJUnitPlatform() {
         systemProperty "testprofile", "pullrequestCommentIntegration"
         if (System.properties['testprofile'] != 'unit') {
-            include 'com/checkmarx/flow/cucumber/integration/pullrequest/updatecomments/**'
+            //include 'com/checkmarx/flow/cucumber/integration/pullrequest/updatecomments/**'
         }
         testLogging {
             events "passed", "skipped", "failed"
