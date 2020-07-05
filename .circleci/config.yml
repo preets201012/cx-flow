@@ -438,8 +438,8 @@ workflows:
   
   cx-kpi-shipper:
     jobs:
-      - checkmarx/circleci-kpi-shipper
-          context: cx-operation-shipper
+      - checkmarx/circleci-kpi-shipper:
+        context: cx-operation-shipper      
   
   sonar:
     jobs:
