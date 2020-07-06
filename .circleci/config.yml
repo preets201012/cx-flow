@@ -223,8 +223,7 @@ jobs:
           command: ./gradlew clean componentTest --info
       - run:
           name: Save test results
-          command: |
-            exit 1
+          command: |            
             mkdir -p ~/test-results/junit/
             find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} ~/test-results/junit/ \;
           when: always
