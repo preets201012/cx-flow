@@ -317,16 +317,16 @@ jobs:
       - store_artifacts:
           path: ~/test-results/junit
 
-  pullRequestComments-integration-tests:
+  pull-request-SAST-comments-integration-tests:
     docker:
       - image: "circleci/openjdk:8-jdk"
     steps:
       - checkout
       - run:
-          name: Run pull request comments Integration Tests
+          name: Run pull request SAST comments Integration Tests
           command: |
             export HOOK_TARGET=https://cxflow-${CIRCLE_SHA1::7}.${EXTERNAL_DNS_DOMAIN}
-            ./gradlew clean PullRequestCommnetsIntegrationTest --info -Dtarget=${HOOK_TARGET} -Drepo=${HOOK_REPO} -Dnamespace=${HOOK_NAMESPACE}
+            ./gradlew clean PullRequestSastCommnetsIntegrationTest --info -Dtarget=${HOOK_TARGET} -Drepo=${HOOK_REPO} -Dnamespace=${HOOK_NAMESPACE}
       - run:
           name: Save test results
           command: |
@@ -337,6 +337,48 @@ jobs:
           path: ~/test-results
       - store_artifacts:
           path: ~/test-results/junit
+
+  pull-request-SCA-comments-integration-tests:
+    docker:
+    - image: "circleci/openjdk:8-jdk"
+    steps:
+    - checkout
+    - run:
+        name: Run pull request SCA comments Integration Tests
+        command: |
+          export HOOK_TARGET=https://cxflow-${CIRCLE_SHA1::7}.${EXTERNAL_DNS_DOMAIN}
+          ./gradlew clean PullRequestScaCommnetsIntegrationTest --info -Dtarget=${HOOK_TARGET} -Drepo=${HOOK_REPO} -Dnamespace=${HOOK_NAMESPACE}
+    - run:
+        name: Save test results
+        command: |
+          mkdir -p ~/test-results/junit/
+          find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} ~/test-results/junit/ \;
+        when: always
+    - store_test_results:
+        path: ~/test-results
+    - store_artifacts:
+        path: ~/test-results/junit
+
+  pull-request-SAST-and-SCA-comments-integration-tests:
+    docker:
+    - image: "circleci/openjdk:8-jdk"
+    steps:
+    - checkout
+    - run:
+        name: Run pull request SAST and SCA comments Integration Tests
+        command: |
+          export HOOK_TARGET=https://cxflow-${CIRCLE_SHA1::7}.${EXTERNAL_DNS_DOMAIN}
+          ./gradlew clean PullRequestSastAndScaCommnetsIntegrationTest --info -Dtarget=${HOOK_TARGET} -Drepo=${HOOK_REPO} -Dnamespace=${HOOK_NAMESPACE}
+    - run:
+        name: Save test results
+        command: |
+          mkdir -p ~/test-results/junit/
+          find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} ~/test-results/junit/ \;
+        when: always
+    - store_test_results:
+        path: ~/test-results
+    - store_artifacts:
+        path: ~/test-results/junit
 
   SAST-CLI-integration-tests:
     docker:
@@ -544,9 +586,15 @@ workflows:
       - jira-integration-tests:
           requires:
             - deploy-cxflow
-      - pullRequestComments-integration-tests:
+      - pull-request-SAST-comments-integration-tests:
           requires:
             - deploy-cxflow
+      - pull-request-SCA-comments-integration-tests:
+          requires:
+          - deploy-cxflow
+      - pull-request-SAST-and-SCA-comments-integration-tests:
+          requires:
+          - deploy-cxflow
       - SAST-CLI-integration-tests:
           requires:
             - deploy-cxflow
@@ -562,7 +610,9 @@ workflows:
             - integration-tests
             - sca-integration-tests
             - jira-integration-tests
-            - pullRequestComments-integration-tests
+            - pull-request-SAST-comments-integration-tests
+            - pull-request-SCA-comments-integration-tests
+            - pull-request-SAST-and-SCA-comments-integration-tests
             - SAST-CLI-integration-tests
             - SCA-CLI-integration-tests
       - publish-github-release:
@@ -574,7 +624,9 @@ workflows:
             - integration-tests
             - sca-integration-tests
             - jira-integration-tests
-            - pullRequestComments-integration-tests
+            - pull-request-SAST-comments-integration-tests
+            - pull-request-SCA-comments-integration-tests
+            - pull-request-SAST-and-SCA-comments-integration-tests
             - SAST-CLI-integration-tests
             - SCA-CLI-integration-tests
       - cleanup:
@@ -594,7 +646,9 @@ workflows:
             - integration-tests
             - sca-integration-tests
             - jira-integration-tests
-            - pullRequestComments-integration-tests
+            - pull-request-SAST-comments-integration-tests
+            - pull-request-SCA-comments-integration-tests
+            - pull-request-SAST-and-SCA-comments-integration-tests
             - SAST-CLI-integration-tests
             - SCA-CLI-integration-tests
   nightly-cleanup:

@@ -232,10 +232,32 @@ task JiraIntegrationTest(type: Test) {
     }
 }
 
-task PullRequestCommnetsIntegrationTest(type: Test) {
+task PullRequestSastCommnetsIntegrationTest(type: Test) {
     useJUnitPlatform() {
-        systemProperty "testprofile", "pullrequestCommentIntegration"
-        include 'com/checkmarx/flow/cucumber/integration/pullrequest/updatecomments/**'
+        systemProperty "testprofile", "pullrequestSastCommentIntegration"
+        include 'com/checkmarx/flow/cucumber/integration/pullrequest/updatecomments/sast/**'
+
+        testLogging {
+            events "passed", "skipped", "failed"
+        }
+    }
+}
+
+task PullRequestScaCommnetsIntegrationTest(type: Test) {
+    useJUnitPlatform() {
+        systemProperty "testprofile", "pullrequestScaCommentIntegration"
+        include 'com/checkmarx/flow/cucumber/integration/pullrequest/updatecomments/sca/**'
+
+        testLogging {
+            events "passed", "skipped", "failed"
+        }
+    }
+}
+
+task PullRequestSastAndScaCommnetsIntegrationTest(type: Test) {
+    useJUnitPlatform() {
+        systemProperty "testprofile", "pullrequestSastAndScaCommentIntegration"
+        include 'com/checkmarx/flow/cucumber/integration/pullrequest/updatecomments/sast_and_sca/**'
 
         testLogging {
             events "passed", "skipped", "failed"
