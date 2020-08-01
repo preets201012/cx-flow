@@ -1,15 +1,14 @@
 package com.checkmarx.flow.cucumber.integration.pullrequest.updatecomments.sast_and_sca;
 
 import com.checkmarx.flow.CxFlowApplication;
+import com.checkmarx.flow.config.ADOProperties;
 import com.checkmarx.flow.config.FlowProperties;
 import com.checkmarx.flow.config.GitHubProperties;
 import com.checkmarx.flow.controller.ADOController;
 import com.checkmarx.flow.controller.GitHubController;
 import com.checkmarx.flow.cucumber.integration.pullrequest.updatecomments.CommonUpdatePullRequestsComments;
 import com.checkmarx.flow.dto.RepoComment;
-import com.checkmarx.flow.service.ADOService;
-import com.checkmarx.flow.service.GitHubService;
-import com.checkmarx.flow.service.PullRequestCommentsHelper;
+import com.checkmarx.flow.service.*;
 import com.checkmarx.sdk.config.CxProperties;
 import com.checkmarx.sdk.config.ScaProperties;
 import com.checkmarx.sdk.dto.ScanResults;
@@ -37,8 +36,12 @@ public class SastAndScaUpdatePullRequestCommentsSteps extends CommonUpdatePullRe
 
     public SastAndScaUpdatePullRequestCommentsSteps(GitHubService gitHubService, GitHubProperties gitHubProperties,
                                                     GitHubController gitHubController, ADOService adoService, ADOController adoController,
-                                                    FlowProperties flowProperties, CxProperties cxProperties, ScaProperties scaProperties) {
-        super(gitHubService, gitHubProperties, gitHubController, adoService, adoController, flowProperties, cxProperties, scaProperties);
+                                                    FlowProperties flowProperties, CxProperties cxProperties, ScaProperties scaProperties,
+                                                    SastScanner sastScanner, BugTrackerEventTrigger bugTrackerEventTrigger, ADOProperties adoProperties) {
+        super(gitHubService, gitHubProperties, gitHubController,
+                adoService, adoController, flowProperties,
+                cxProperties, scaProperties, sastScanner,
+                bugTrackerEventTrigger, adoProperties);
     }
 
     @Before

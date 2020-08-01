@@ -33,6 +33,7 @@ Feature: After scan that was initiated by pull request, CxFlow should update the
     And no comments on pull request
     And pull request arrives to CxFlow
     And Wait for comments
+    And different filters configuration is set
     When pull request arrives to CxFlow
     Then Wait for comments
     And Wait for updated comment

@@ -1,5 +1,6 @@
 package com.checkmarx.flow.cucumber.integration.pullrequest.updatecomments;
 
+import com.checkmarx.flow.config.ADOProperties;
 import com.checkmarx.flow.config.FlowProperties;
 import com.checkmarx.flow.config.GitHubProperties;
 import com.checkmarx.flow.controller.ADOController;
@@ -10,9 +11,7 @@ import com.checkmarx.flow.dto.azure.AdoDetailsRequest;
 import com.checkmarx.flow.dto.azure.Project;
 import com.checkmarx.flow.dto.azure.Resource;
 import com.checkmarx.flow.dto.github.*;
-import com.checkmarx.flow.service.ADOService;
-import com.checkmarx.flow.service.GitHubService;
-import com.checkmarx.flow.service.HelperService;
+import com.checkmarx.flow.service.*;
 import com.checkmarx.sdk.config.CxProperties;
 import com.checkmarx.sdk.config.ScaProperties;
 import com.checkmarx.sdk.dto.ScanResults;
@@ -64,8 +63,11 @@ public class CommonUpdatePullRequestsComments {
     protected final ObjectMapper mapper = new ObjectMapper();
     protected final GitHubService gitHubService;
     protected final GitHubProperties gitHubProperties;
+    protected final ADOProperties adoProperties;
     protected final HelperService helperService;
     protected final ScaProperties scaProperties;
+    protected final SastScanner sastScanner;
+    protected final BugTrackerEventTrigger bugTrackerEventTrigger;
 
     private final ADOService adoService;
     private GitHubController gitHubControllerSpy;
@@ -79,7 +81,10 @@ public class CommonUpdatePullRequestsComments {
     protected String branchGitHub;
     protected CommonUpdatePullRequestsComments.ScannerType scannerType;
 
-    public CommonUpdatePullRequestsComments(GitHubService gitHubService, GitHubProperties gitHubProperties, GitHubController gitHubController, ADOService adoService, ADOController adoController, FlowProperties flowProperties, CxProperties cxProperties, ScaProperties scaProperties) {
+    public CommonUpdatePullRequestsComments(GitHubService gitHubService, GitHubProperties gitHubProperties, GitHubController gitHubController,
+                                            ADOService adoService, ADOController adoController, FlowProperties flowProperties,
+                                            CxProperties cxProperties, ScaProperties scaProperties,
+                                            SastScanner sastScanner, BugTrackerEventTrigger bugTrackerEventTrigger, ADOProperties adoProperties) {
         this.helperService = mock(HelperService.class);
         this.gitHubService = gitHubService;
         this.gitHubProperties = gitHubProperties;
@@ -89,6 +94,9 @@ public class CommonUpdatePullRequestsComments {
         this.flowProperties = flowProperties;
         this.cxProperties = cxProperties;
         this.scaProperties = scaProperties;
+        this.sastScanner = sastScanner;
+        this. bugTrackerEventTrigger = bugTrackerEventTrigger;
+        this.adoProperties = adoProperties;
     }
 
     protected void initSca() {
