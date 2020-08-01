@@ -137,11 +137,9 @@ public class SastUpdatePullRequestCommentsSteps extends CommonUpdatePullRequests
         if (sourceControl.equals(SastUpdatePullRequestCommentsSteps.SourceControlType.GITHUB)) {
             bugTrackerEventTrigger.triggerBugTrackerEvent(gitHubScanRequest);
             sastScanner.cxParseResults(gitHubScanRequest, getFileFromResourcePath());
-//            buildGitHubPullRequest(ScannerType.SAST);
         } else if (sourceControl.equals(SastUpdatePullRequestCommentsSteps.SourceControlType.ADO)) {
             bugTrackerEventTrigger.triggerBugTrackerEvent(adoScanRequest);
             sastScanner.cxParseResults(adoScanRequest, getFileFromResourcePath());
-            buildADOSASTPullRequestEvent();
         }
     }
 
@@ -221,7 +219,6 @@ public class SastUpdatePullRequestCommentsSteps extends CommonUpdatePullRequests
                 .mergeNoteUri("https://api.github.com/repos/cxflowtestuser/vb_test_pr_comments/issues/6/comments")
                 .application("VB")
                 .repoUrl("https://github.com/cxflowtestuser/vb_test_pr_comments")
-                .repoUrlWithAuth("https://b8017cf490370cc071df76640014fa7dc42df18a@github.com/cxflowtestuser/vb_test_pr_comments")
                 .build();
     }
 
@@ -231,7 +228,6 @@ public class SastUpdatePullRequestCommentsSteps extends CommonUpdatePullRequests
                 .project(ADO_PROJECT_NAME)
                 .repoType(ScanRequest.Repository.ADO)
                 .repoUrl("https://dev.azure.com/CxNamespace/AdoPullRequestTests/_git/AdoPullRequestTests")
-                .repoUrlWithAuth("https://tt3gewiwl4bsovben5prn3rtepinx6xu4smelqzqfm4lhruq5feq@dev.azure.com/CxNamespace/AdoPullRequestTests/_git/AdoPullRequestTests")
                 .repoName("AdoPullRequestTests")
                 .branch("master")
                 .mergeTargetBranch("udi-tests-2")
