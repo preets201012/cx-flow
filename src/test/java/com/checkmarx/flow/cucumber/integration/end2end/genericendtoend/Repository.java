@@ -32,6 +32,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
+import jdk.internal.jline.internal.Log;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.platform.commons.PreconditionViolationException;
@@ -221,6 +222,7 @@ enum Repository {
                     String.class);
                 assertEquals(HttpStatus.CREATED, response.getStatusCode());
                 prId = new JSONObject(response.getBody()).getInt("number");
+                Log.info("pull request created {}, url: {}", prId, url);
             } catch (Exception e) {
                 fail("failed to create PR " + e.getMessage());
             }
@@ -278,6 +280,7 @@ enum Repository {
         @Override
         void verifyPRUpdated() {
             String url = getPRCommentsUrl();
+            log.info("validating pull request comment at: {}", url);
             boolean isFound = false;
             for (int retries = 0 ; retries < 20 && !isFound ; retries++) {
                 try {

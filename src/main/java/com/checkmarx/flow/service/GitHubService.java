@@ -131,6 +131,7 @@ public class GitHubService extends RepoService {
 
     public void sendMergeComment(ScanRequest request, String comment) {
         try {
+            log.info("sending comment {} : {}", request.getMergeNoteUri(), comment);
             RepoComment commentToUpdate = PullRequestCommentsHelper.getCommentToUpdate(getComments(request.getMergeNoteUri()), comment);
             if (commentToUpdate !=  null) {
                 log.debug("Got candidate comment to update. comment: {}", commentToUpdate.getComment());
