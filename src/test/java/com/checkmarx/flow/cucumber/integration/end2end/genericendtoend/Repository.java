@@ -222,7 +222,7 @@ enum Repository {
                     String.class);
                 assertEquals(HttpStatus.CREATED, response.getStatusCode());
                 prId = new JSONObject(response.getBody()).getInt("number");
-                Log.info("pull request created {}, url: {}", prId, url);
+                log.info("pull request created {}, url: {}", prId, url);
             } catch (Exception e) {
                 fail("failed to create PR " + e.getMessage());
             }
