@@ -128,9 +128,9 @@ enum Repository {
                 JSONObject response = api.pushFile(content, "GitHubToJira test message", committer, getHeaders(),
                         gitHubProperties.getApiUrl(), namespace, repo, theFilePath);
                 createdFilesSha.put( response.getJSONObject("content").getString("sha") , theFilePath);
-                log.info("New file pushed successfully");
+                log.info("New file pushed successfully to url:{}, namespace:{}, repo:{}, filepath:{}", gitHubProperties.getApiUrl(), namespace, repo, theFilePath);
             } catch (JsonProcessingException e) {
-                String msg = "faild to create file for push";
+                String msg = "failed to create file for push";
                 log.error(msg);
                 fail(msg);
             } catch (HttpClientErrorException e) {
@@ -143,7 +143,7 @@ enum Repository {
                     throw e;
                 }
             } catch (Exception e) {
-                fail("faild to push a file: " + e.getMessage());
+                fail("failed to push a file: " + e.getMessage());
             }
         }
 
@@ -167,7 +167,7 @@ enum Repository {
             try {
                 ObjectMapper mapper = new ObjectMapper();
                 ObjectNode jo = mapper.createObjectNode();
-                jo.put("message", "deleting test commited file");
+                jo.put("message", "deleting test committed file");
                 Committer committer = new Committer();
                 committer.setName("CxFlowTestUser");
                 committer.setEmail("CxFlowTestUser@checkmarx.com");
@@ -176,7 +176,7 @@ enum Repository {
 
                 data = mapper.writeValueAsString(jo);
             } catch (Exception e) {
-                String msg = "faild to delete file of push";
+                String msg = "failed to delete file of push";
                 log.error(msg);
                 fail(msg);
             }
@@ -244,7 +244,7 @@ enum Repository {
             try {
                 data = mapper.writeValueAsString(pr);
             } catch (JsonProcessingException e) {
-                String msg = "faild to create GitHub PR data";
+                String msg = "failed to create GitHub PR data";
                 log.error(msg);
                 fail(msg);
             }
@@ -435,7 +435,7 @@ enum Repository {
 
 
             } catch (Exception e) {
-                String msg = "faild to create file for push";
+                String msg = "failed to create file for push";
                 log.error(msg);
                 fail(msg);
                 data = null;
@@ -449,7 +449,7 @@ enum Repository {
                         String.class);
                 log.info("Pushed response body={}", response.getBody());
             } catch (Exception e) {
-                String msg = "faild to push a file:";
+                String msg = "failed to push a file:";
                 log.error(msg);
                 fail(msg + e.getMessage());
 

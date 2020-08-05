@@ -76,7 +76,7 @@ public class GenericEndToEndSteps {
     @Given("Scan engine is {word}")
     public void setScanEngine(String engine) {
         this.engine = engine;
-        log.info("setting scan engine to {word}" , engine);
+        log.info("setting scan engine to {}" , engine);
     }
 
     @And("webhook is configured for push event")
@@ -109,11 +109,13 @@ public class GenericEndToEndSteps {
     public void validateIssueOnBugTracker() {
         String severities = "(" + flowProperties.getFilterSeverity().stream().collect(Collectors.joining(",")) + ")";
         bugTracker.verifyIssueCreated(severities, engine);
+        log.info("Validate {} issues successfully in {}", engine, bugTracker);
     }
 
     @Then("pull-request is updated")
     public void checkPRUpdate() {
         repository.verifyPRUpdated();
+        log.info("Pull Request comment was validated successfully ");
     }
 
     @After
