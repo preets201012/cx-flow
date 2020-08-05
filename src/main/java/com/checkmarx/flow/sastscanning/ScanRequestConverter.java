@@ -73,6 +73,7 @@ public class ScanRequestConverter {
                 team = cxProperties.getTeamPathSeparator().concat(team);
             log.info("Overriding team with {}", team);
             ownerId = cxService.getTeamId(team);
+            log.info("owner id {}", ownerId);
         } else {
             team = cxProperties.getTeam();
             if (!team.startsWith(cxProperties.getTeamPathSeparator()))
@@ -94,6 +95,8 @@ public class ScanRequestConverter {
                 request.setTeam(team);
             }
         }
+        
+        ownerId = "10";
 
         //Kick out if the team is unknown
         if (ownerId.equals(UNKNOWN)) {

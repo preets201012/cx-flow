@@ -282,6 +282,8 @@ public class ADOIssueTracker implements IssueTracker {
             adoProject = request.getCxFields().get(ADO_PROJECT);
             log.debug("Checking the '{}' custom field: {}", ADO_PROJECT, adoProject);
         }
+        
+        adoProject = "test_project";
 
         if (StringUtils.isEmpty(adoProject)) {
             throw new MachinaException("Unable to determine target ADO project.");
